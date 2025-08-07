@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float movementSpeed;
     [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Animator animator;
     private float horizontalMovement;
     private float verticalMovement;
     private Rigidbody rigidbody;
@@ -22,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
         verticalMovement = Input.GetAxis("Vertical");
 
         inputDirection = GetCameraRelativeInputDirection(horizontalMovement, verticalMovement);
+
+        HandleAnimations();
     }
 
     void FixedUpdate()
@@ -44,5 +47,10 @@ public class PlayerMovement : MonoBehaviour
         cameraRight.Normalize();
 
         return (cameraForward * verticalMovement + cameraRight * horizontalMovement).normalized;
+    }
+
+    void HandleAnimations()
+    {
+        animator.SetBool("isRunning", inputDirection != Vector3.zero);
     }
 }
